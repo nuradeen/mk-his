@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -14,27 +15,35 @@ AppAsset::register($this);
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
-<head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
-</head>
-<body>
-    <?php $this->beginBody() ?>
-    <div class="wrap">
-        <?php
+    <head>
+        <meta charset="<?= Yii::$app->charset ?>">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <?= Html::csrfMetaTags() ?>
+        <title><?= Html::encode($this->title) ?></title>
+<?php $this->head() ?>
+    </head>
+    <body>
+            <?php $this->beginBody() ?>
+        <div class="wrap">
+            <?php
             NavBar::begin([
-                'brandLabel' => 'My Company',
+                'brandLabel' => 'ศูนย์ข้อมูลสถิติการรับบริการของโรงพยาบาลไม้แก่น อ.ไม้แก่น จ.ปัตตานี',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
+            
+            $report_mnu_itms[] = ['label' => 'รวมรายงานทั้งหมด','url' => ['report/index']];
+            $report_mnu_itms[] = ['label' => 'รายงาน 1', 'url' => ['report/report1']];
+            $report_mnu_itms[] = ['label' => 'รายงานประกันสังคม', 'url' => ['report/report2']];
+            
+            
             $menuItems = [
-                ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'About', 'url' => ['/site/about']],
+                ['label' => 'หน้าหลัก', 'url' => ['/site/index']],
+                ['label' => 'หมวดรายงาน',
+                    'items' => $report_mnu_itms
+                    ],
                 ['label' => 'Contact', 'url' => ['/site/contact']],
             ];
             if (Yii::$app->user->isGuest) {
@@ -52,25 +61,27 @@ AppAsset::register($this);
                 'items' => $menuItems,
             ]);
             NavBar::end();
-        ?>
+            ?>
 
-        <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+            <div class="container">
+                <?=
+                Breadcrumbs::widget([
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ])
+                ?>
+<?= Alert::widget() ?>
+<?= $content ?>
+            </div>
         </div>
-    </div>
 
-    <footer class="footer">
-        <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-        <p class="pull-right"><?= Yii::powered() ?></p>
-        </div>
-    </footer>
+        <footer class="footer">
+            <div class="container">
+                <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+                <p class="pull-right"><?= Yii::powered() ?></p>
+            </div>
+        </footer>
 
-    <?php $this->endBody() ?>
-</body>
+<?php $this->endBody() ?>
+    </body>
 </html>
 <?php $this->endPage() ?>
