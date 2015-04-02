@@ -3,16 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use app\models\Person;
-use frontend\models\PersonSearch;
+use app\models\patient;
+use frontend\models\PatientSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PersonController implements the CRUD actions for Person model.
+ * PatientController implements the CRUD actions for patient model.
  */
-class PersonController extends Controller
+class PatientController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class PersonController extends Controller
     }
 
     /**
-     * Lists all Person models.
+     * Lists all patient models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PersonSearch();
+        $searchModel = new PatientSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,8 +42,8 @@ class PersonController extends Controller
     }
 
     /**
-     * Displays a single Person model.
-     * @param integer $id
+     * Displays a single patient model.
+     * @param string $id
      * @return mixed
      */
     public function actionView($id)
@@ -54,16 +54,16 @@ class PersonController extends Controller
     }
 
     /**
-     * Creates a new Person model.
+     * Creates a new patient model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Person();
+        $model = new patient();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->person_id]);
+            return $this->redirect(['view', 'id' => $model->hos_guid]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -72,9 +72,9 @@ class PersonController extends Controller
     }
 
     /**
-     * Updates an existing Person model.
+     * Updates an existing patient model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionUpdate($id)
@@ -82,7 +82,7 @@ class PersonController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->person_id]);
+            return $this->redirect(['view', 'id' => $model->hos_guid]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -91,9 +91,9 @@ class PersonController extends Controller
     }
 
     /**
-     * Deletes an existing Person model.
+     * Deletes an existing patient model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionDelete($id)
@@ -102,17 +102,17 @@ class PersonController extends Controller
 
         return $this->redirect(['index']);
     }
-    
+
     /**
-     * Finds the Person model based on its primary key value.
+     * Finds the patient model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Person the loaded model
+     * @param string $id
+     * @return patient the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Person::findOne($id)) !== null) {
+        if (($model = patient::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
