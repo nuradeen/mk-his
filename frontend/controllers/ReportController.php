@@ -36,7 +36,8 @@ GROUP BY age_y";
         ]);
     }
     public function actionReport2(){
-        $sql ="select v.vstdate,ov.vsttime,v.hn,v.cid,concat(pt.pname,pt.fname,'  ',pt.lname)as name,
+       
+        $sql ="select v.vstdate,ov.vsttime,v.hn,v.cid,concat(pt.pname,pt.fname,'  ',pt.lname)as ชื่อ,
        s.name,v.age_y,v.pttype,v.hospmain,d.`name`,d.licenseno,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,(v.inc01+v.inc02+v.inc03) as ชันสูตร,v.inc05 as วินิจฉัย,v.inc04 as รังสี,
        (v.inc06+v.inc07+v.inc08+v.inc09+v.inc10+v.inc13+v.inc14) as เวชกรรม,(v.inc12+v.inc17) as drug,v.income
 from vn_stat v
@@ -65,5 +66,90 @@ order by v.vstdate";
     
         
     }
+    public function actionReport3(){
+        $sql ="SELECT
+v.village_id AS 'หมู่ที่',
+v.village_name AS 'หมู่บ้าน',
+SUM(
+CASE
+WHEN p.house_regist_type_id = 0 THEN
+1
+ELSE
+'0'
+END
+) AS 'ประเภท 0',
+SUM(
+CASE
+WHEN p.house_regist_type_id = 1 THEN
+1
+ELSE
+'0'
+END
+) AS 'ประเภท 1',
+SUM(
+CASE
+WHEN p.house_regist_type_id = 2 THEN
+1
+ELSE
+'0'
+END
+) AS 'ประเภท 2',
+SUM(
+CASE
+WHEN p.house_regist_type_id = 3 THEN
+1
+ELSE
+'0'
+END
+) AS 'ประเภท 3',
+SUM(
+CASE
+WHEN p.house_regist_type_id = 4 THEN
+1
+ELSE
+'0'
+END
+) AS 'ประเภท 4'
+FROM person AS p
+INNER JOIN house AS h ON p.house_id = h.house_id
+INNER JOIN village AS v ON h.village_id = v.village_id
+WHERE
+p.person_id NOT IN (SELECT person_death.person_id FROM person_death)
+GROUP BY v.village_name
+ORDER BY v.village_id";
+        try {
+            $rawData = \Yii::$app->db->createCommand($sql)->queryAll();
+        } catch (\yii\db\Exception $e) {
+            throw new \yii\web\ConflictHttpException('sql error');
+        }
+        $dataProvider = new \yii\data\ArrayDataProvider([
+
+            'allModels' => $rawData,
+            'pagination' => FALSE,
+        ]);
+        return $this->render('report3', [
+                    'dataProvider' => $dataProvider,
+                    'rawData' => $rawData
+        ]);
     
+    }
+    public function actionReport4(){
+        $sql ="select count(distinct ov.hn) as จำนวนคนไข้ from ovst ov 
+where ov.vstdate= DATE(NOW())";
+     
+        try {
+            $rawData = \Yii::$app->db->createCommand($sql)->queryAll();
+        } catch (\yii\db\Exception $e) {
+            throw new \yii\web\ConflictHttpException('sql error');
+        }
+        $dataProvider = new \yii\data\ArrayDataProvider([
+
+            'allModels' => $rawData,
+            'pagination' => FALSE,
+        ]);
+        return $this->render('report4', [
+                    'dataProvider' => $dataProvider,
+                    'rawData' => $rawData
+        ]);
+    }
 }

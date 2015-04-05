@@ -37,6 +37,7 @@ AppAsset::register($this);
             $report_mnu_itms[] = ['label' => 'รวมรายงานทั้งหมด','url' => ['report/index']];
             $report_mnu_itms[] = ['label' => 'รายงาน 1', 'url' => ['report/report1']];
             $report_mnu_itms[] = ['label' => 'รายงานประกันสังคม', 'url' => ['report/report2']];
+            $report_mnu_itms[] = ['label' => 'รายงานประชากรแยกตามสถานะบุคคล','url' => ['report/report3']];
             
             
             $menuItems = [
