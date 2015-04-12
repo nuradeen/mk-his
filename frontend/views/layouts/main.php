@@ -40,8 +40,8 @@ MaterialAsset::register($this);
             $report_mnu_itms[] = ['label' => 'รายงานประกันสังคม', 'url' => ['report/report2']];
             $report_mnu_itms[] = ['label' => 'รายงานประชากรแยกตามสถานะบุคคล','url' => ['report/report3']];
             
-            $report_mnu_itms1[] = ['label' => 'สถิติผู้ป่วยนอกวันนี้ และย้อนหลัง 20 วัน','url' => ['opd/report2']];
-            $report_mnu_itms1[] = ['label' => 'สถิติผู้ปวยในปีงบ 2558', 'url' => ['opd/report4']];
+            $report_mnu_itms1[] = ['label' => 'สถิติผู้ป่วยนอกวันนี้ และย้อนหลัง 20 วัน','url' => ['opd/opd20']];
+            $report_mnu_itms1[] = ['label' => 'สถิติผู้ปวยในปีงบ 2558', 'url' => ['opd/ipdsum']];
             
             $menuItems = [
                 ['label' => 'หน้าหลัก', 'url' => ['/site/index']],
