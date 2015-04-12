@@ -1,16 +1,17 @@
 <?php
-
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
+use frontend\assets\MaterialAsset;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-AppAsset::register($this);
+//AppAsset::register($this);
+MaterialAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -27,7 +28,7 @@ AppAsset::register($this);
         <div class="wrap">
             <?php
             NavBar::begin([
-                'brandLabel' => 'ศูนย์ข้อมูลสถิติการรับบริการของโรงพยาบาลไม้แก่น อ.ไม้แก่น จ.ปัตตานี',
+                'brandLabel' => 'ศูนย์ข้อมูลสถิติการรับบริการของโรงพยาบาลไม้แก่น',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -39,11 +40,16 @@ AppAsset::register($this);
             $report_mnu_itms[] = ['label' => 'รายงานประกันสังคม', 'url' => ['report/report2']];
             $report_mnu_itms[] = ['label' => 'รายงานประชากรแยกตามสถานะบุคคล','url' => ['report/report3']];
             
+            $report_mnu_itms1[] = ['label' => 'สถิติผู้ป่วยนอกวันนี้ และย้อนหลัง 20 วัน','url' => ['opd/report2']];
+            $report_mnu_itms1[] = ['label' => 'สถิติผู้ปวยในปีงบ 2558', 'url' => ['opd/report4']];
             
             $menuItems = [
                 ['label' => 'หน้าหลัก', 'url' => ['/site/index']],
                 ['label' => 'หมวดรายงาน',
                     'items' => $report_mnu_itms
+                    ],
+                ['label' => 'สถิติต่าง ๆ ',
+                    'items' => $report_mnu_itms1
                     ],
                 ['label' => 'Contact', 'url' => ['/site/contact']],
             ];

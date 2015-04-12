@@ -8,17 +8,19 @@ $this->params['breadcrumbs'][] = ['label' => 'หมวดรายงาน', '
 $this->params['breadcrumbs'][] = 'ผู้ป่วยที่กำลัง admit ทั้งหมด ณ ปัจจุบัน';
 ?>
 
+
 <div id="chart" style="padding-bottom: 10px"></div>
 
 <?php
 echo GridView::widget([
-    'dataProvider' => $dataProvider,
+    'dataProvider' => $dataProvider57,
     'panel' => [
-        'before' => 'คนไข้ประจำวันที่ : ' . date('d-m-Y h:m:s'),
+        'before' => 'เปรียบเทียบข้อมูลผู้ป่วยในแยกปีงบประมาณ : ' . date('d-m-Y'),
         'after' => ''
     ],
 ]);
 ?>
+
 <?php
 Highcharts::widget([
     'scripts' => [
@@ -29,62 +31,65 @@ Highcharts::widget([
 ?>
 
 <?php
-$month1 = [];
+$month = [];
 for ($i = 0; $i < count($rawData); $i++) {
-    $categ[] = $rawData[$i]['now'];
+    $categ[] = $rawData[$i]['month'];
     //array_push($categ,'vvvv');
 }
 
-$month1 = array_column($rawData, 'now');
-$js_categories = implode("','", $month1);
+$month = array_column($rawData, 'month');
+$js_categories = implode("','", $month);
 
 $ipd = [];
 for ($i = 0; $i < count($rawData); $i++) {
-    $ipd[] = $rawData[$i]['cc'];
+    $ipd[] = $rawData[$i]['pt'];
     //array_push($categ,'vvvv');
 }
 
-$ipd = array_column($rawData, 'cc');
+$ipd = array_column($rawData, 'pt');
 $js_data = implode(",", $ipd);
 
 
 // chart
 
-$this->registerJs("$(function () {
+$this->registerJs("
+$(function () {
     $('#chart').highcharts({
         chart: {
-            type: 'column',
-            margin: 75,
-            options3d: {
-                enabled: true,
-                alpha: 10,
-                beta: 25,
-                depth: 70
-            }
+            type: 'line'
         },
         title: {
-            text: '3D chart with null values'
+            text: 'Maikaen Hospital'
         },
         subtitle: {
-            text: 'Notice the difference between a 0 value and a null point'
-        },
-        plotOptions: {
-            column: {
-                depth: 25
-            }
+            text: 'จำนวนครั้งคนไข้ในของโรงพยาบาลไม้แก่น'
         },
         xAxis: {
             categories: ['$js_categories']
         },
         yAxis: {
             title: {
-                text: null
+                text: 'จำนวนครั้งคนไข้ใน'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
             }
         },
         series: [{
-            name: 'Sales',
+            name: 'จำนวนคนไข้ในปีงบ 58',
             data: [$js_data]
         }]
+        
     });
 });
 ");
+//จบ
+
+
+
+
